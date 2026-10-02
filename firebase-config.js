@@ -1,3 +1,4 @@
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getDatabase, ref, set, get, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
@@ -10,7 +11,7 @@ const firebaseConfig = {
   messagingSenderId: "518636091417",
   appId: "1:518636091417:web:09a8f8d5efa0442bf51288",
   measurementId: "G-MQN55H1J2D",
-  databaseURL: "https://turkdev-photourl-default-rtdb.firebaseio.com"
+  databaseURL: "https://turkdev-photourl-default-rtdb.europe-west1.firebasedatabase.app"
 };
 
 const app = initializeApp(firebaseConfig);
