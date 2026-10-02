@@ -1,5 +1,5 @@
 const TOKEN = "8957741117:AAEmI4Tc7JSUemVUAnUzoYpD8J2p1aMCfyk";
-const FIREBASE_DB = "https://turkdev-photourl-default-rtdb.firebaseio.com";
+const FIREBASE_DB = "https://turkdev-photourl-default-rtdb.europe-west1.firebasedatabase.app";
 
 export default async function handler(req, res){
   const { id } = req.query;
