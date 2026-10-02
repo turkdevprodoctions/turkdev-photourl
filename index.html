@@ -1,1 +1,317 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TurkDev PhotoURL — Resimden PNG Linki</title>
+<meta name="description" content="Resimlerini yükle, sana özel gerçek PNG linki al.">
+<link rel="icon" type="image/jpeg" href="https://cdn.phototourl.com/member/2026-10-02-34cd0673-3783-40bc-8b35-06e3eb077f04.jpg">
+<meta property="og:image" content="https://cdn.phototourl.com/member/2026-10-02-34cd0673-3783-40bc-8b35-06e3eb077f04.jpg">
+<style>
+:root{--bg:#070a12;--card:rgba(255,255,255,.04);--border:rgba(255,255,255,.09);--text:#e8ecf6;--muted:#98a3bd;--accent:#00d3ff;--accent-2:#7b5cff;--accent-3:#ff3d81;--radius:16px;--max:1100px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(600px 400px at 10% 5%,rgba(0,211,255,.15),transparent 60%),radial-gradient(600px 400px at 90% 10%,rgba(123,92,255,.15),transparent 60%),radial-gradient(600px 500px at 50% 100%,rgba(255,61,129,.10),transparent 65%);pointer-events:none;z-index:0}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 20px;position:relative;z-index:2}
+header{position:sticky;top:0;z-index:100;backdrop-filter:blur(14px);background:rgba(7,10,18,.75);border-bottom:1px solid var(--border)}
+.nav{max-width:var(--max);margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.05rem;cursor:pointer}
+.brand img{width:40px;height:40px;border-radius:10px;object-fit:cover;border:1px solid var(--border);box-shadow:0 0 18px rgba(0,211,255,.35)}
+.brand b{background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.nav-links{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.nav-links button{padding:8px 16px;border-radius:10px;background:transparent;border:1px solid transparent;color:var(--muted);font-weight:600;font-size:.88rem;cursor:pointer;transition:.25s;font-family:inherit}
+.nav-links button:hover{color:var(--text);background:rgba(255,255,255,.06)}
+.nav-links button.aktif{color:var(--accent);border-color:rgba(0,211,255,.3);background:rgba(0,211,255,.08)}
+.nav-links .cta{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#04060d;border:none;font-weight:700;box-shadow:0 6px 18px rgba(0,211,255,.3)}
+.nav-links .cta:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,211,255,.45);color:#04060d}
+.sayfa{display:none;padding:50px 0 80px;animation:fade .4s ease}
+.sayfa.aktif{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.hero{text-align:center;margin-bottom:44px}
+.hero .badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:100px;border:1px solid var(--border);background:var(--card);font-size:.8rem;color:var(--muted);margin-bottom:18px}
+.hero .dot{width:8px;height:8px;border-radius:50%;background:#22e57a;box-shadow:0 0 10px #22e57a;animation:pulse 1.8s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:900;letter-spacing:-1.2px;line-height:1.1;margin-bottom:16px}
+h1 em{font-style:normal;background:linear-gradient(100deg,var(--accent),var(--accent-2) 55%,var(--accent-3));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--muted);max-width:640px;margin:0 auto;font-size:1.02rem}
+.kart{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;backdrop-filter:blur(10px);margin-bottom:20px}
+.kart h3{font-size:1.15rem;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.drop{border:2px dashed rgba(0,211,255,.35);border-radius:14px;padding:44px 22px;text-align:center;cursor:pointer;transition:.3s;background:rgba(0,211,255,.02)}
+.drop:hover{border-color:var(--accent);background:rgba(0,211,255,.06)}
+.drop.drag{border-color:var(--accent-2);background:rgba(123,92,255,.1)}
+.drop .icon{font-size:2.5rem;margin-bottom:12px;display:block}
+.drop .txt{font-weight:700;margin-bottom:6px}
+.drop .alt{color:var(--muted);font-size:.85rem}
+input[type=file]{display:none}
+.btn{padding:12px 26px;border-radius:11px;font-weight:700;font-size:.92rem;border:none;cursor:pointer;transition:.25s;font-family:inherit;display:inline-flex;align-items:center;gap:8px;justify-content:center}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#04060d;box-shadow:0 8px 22px rgba(0,211,255,.3)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(0,211,255,.45)}
+.btn-ghost{background:var(--card);border:1px solid var(--border);color:var(--text)}
+.btn-ghost:hover{background:rgba(255,255,255,.08)}
+.btn-sm{padding:8px 16px;font-size:.82rem}
+.form-grup{margin-bottom:16px}
+.form-grup label{display:block;margin-bottom:6px;font-size:.88rem;color:var(--muted);font-weight:600}
+.form-grup input{width:100%;padding:12px 16px;border-radius:11px;background:rgba(0,0,0,.3);border:1px solid var(--border);color:var(--text);font-size:.95rem;font-family:inherit;transition:.25s}
+.form-grup input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,211,255,.15)}
+.alert{padding:12px 18px;border-radius:11px;font-size:.88rem;margin-bottom:14px;display:none}
+.alert.aktif{display:block}
+.alert-hata{background:rgba(255,61,129,.1);border:1px solid rgba(255,61,129,.4);color:#ff9bc0}
+.alert-basari{background:rgba(34,229,122,.1);border:1px solid rgba(34,229,122,.4);color:#7cebaa}
+.sonuc{background:rgba(0,0,0,.35);border:1px solid var(--border);border-radius:12px;padding:18px;margin-top:16px;font-family:'Courier New',monospace;font-size:.82rem;word-break:break-all;color:#c9d3e8}
+.sonuc .link{color:var(--accent);font-weight:700;margin:8px 0;display:block;font-size:.95rem}
+.sonuc .meta{color:var(--muted);font-size:.78rem;margin-top:8px}
+.onizleme{margin-top:16px;max-width:100%;border-radius:12px;border:1px solid var(--border);display:none}
+.onizleme.aktif{display:block}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.stat-mini{padding:18px;border-radius:14px;background:var(--card);border:1px solid var(--border);text-align:center}
+.stat-mini b{display:block;font-size:1.6rem;font-weight:900;background:linear-gradient(120deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat-mini span{color:var(--muted);font-size:.82rem}
+#qrSonuc{margin-top:20px;text-align:center;display:none}
+#qrSonuc img{background:#fff;padding:14px;border-radius:14px;max-width:260px}
+#qrSonuc.aktif{display:block}
+.kod{background:#000;border:1px solid var(--border);border-radius:10px;padding:14px;font-family:'Courier New',monospace;font-size:.82rem;color:#c9d3e8;overflow-x:auto;white-space:pre;margin:10px 0}
+.lisans-box{background:rgba(0,0,0,.35);border:1px solid var(--border);border-radius:12px;padding:20px;max-height:400px;overflow-y:auto;font-family:'Courier New',monospace;font-size:.82rem;color:#c9d3e8;white-space:pre-wrap;line-height:1.7}
+.lisans-box::-webkit-scrollbar{width:8px}
+.lisans-box::-webkit-scrollbar-thumb{background:rgba(0,211,255,.35);border-radius:8px}
+footer{border-top:1px solid var(--border);padding:34px 0;text-align:center;margin-top:60px}
+footer p{color:var(--muted);font-size:.85rem;margin-bottom:6px}
+footer a{color:var(--accent);font-weight:600}
+footer small{color:#5a6478;font-size:.75rem}
+@media(max-width:760px){.grid-2{grid-template-columns:1fr}.nav-links button{padding:8px 12px;font-size:.82rem}.hero h1{font-size:2rem}}
+</style>
+</head>
+<body>
 
+<header>
+  <div class="nav">
+    <div class="brand" onclick="git('anasayfa')">
+      <img src="https://cdn.phototourl.com/member/2026-10-02-34cd0673-3783-40bc-8b35-06e3eb077f04.jpg" alt="TurkDev PhotoURL">
+      <span>TurkDev <b>PhotoURL</b></span>
+    </div>
+    <div class="nav-links">
+      <button data-sayfa="anasayfa" class="aktif">🏠 Anasayfa</button>
+      <button data-sayfa="qr">📱 QR Kod</button>
+      <button data-sayfa="api-docs">📖 API</button>
+      <button data-sayfa="lisans">📜 Lisans</button>
+      <button id="girisBtn" class="cta">Giriş Yap</button>
+      <button id="panelBtn" style="display:none" class="cta">Panelim</button>
+      <button id="cikisBtn" style="display:none">Çıkış</button>
+    </div>
+  </div>
+</header>
+
+<section class="sayfa aktif" id="sayfa-anasayfa">
+  <div class="wrap">
+    <div class="hero">
+      <div class="badge"><span class="dot"></span> TurkDev güvencesiyle resim barındırma</div>
+      <h1>Resmini yükle, <em>gerçek PNG linki</em> al</h1>
+      <p>Tek tıkla resimlerini yükle, anında kalıcı PNG linki al. Günlük 15 ücretsiz çeviri hakkı.</p>
+    </div>
+
+    <div class="kart">
+      <h3>📤 Resim Yükle</h3>
+      <div class="alert alert-hata" id="uyariHata"></div>
+      <div class="alert alert-basari" id="uyariBasari"></div>
+
+      <div class="drop" id="drop">
+        <span class="icon">📁</span>
+        <div class="txt">Resmi buraya sürükle veya tıkla</div>
+        <div class="alt">JPG • PNG • WEBP • GIF • BMP → PNG (Max 10 MB)</div>
+        <input type="file" id="fileInput" accept="image/*">
+      </div>
+
+      <img id="onizleme" class="onizleme" alt="Önizleme">
+      <div id="sonucAlan"></div>
+    </div>
+
+    <div class="grid-3">
+      <div class="stat-mini"><b>15</b><span>Günlük ücretsiz hak</span></div>
+      <div class="stat-mini"><b>100</b><span>Aylık API limiti</span></div>
+      <div class="stat-mini"><b>∞</b><span>Kalıcı saklama</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sayfa" id="sayfa-qr">
+  <div class="wrap">
+    <div class="hero">
+      <div class="badge">📱 QR Kod Oluşturucu</div>
+      <h1>Linkini <em>QR koda</em> dönüştür</h1>
+      <p>Herhangi bir link veya metni anında QR koda çevir.</p>
+    </div>
+    <div class="kart">
+      <h3>🔗 QR Kod Oluştur</h3>
+      <div class="form-grup">
+        <label>Link veya Metin</label>
+        <input type="text" id="qrMetin" placeholder="https://ornek.com">
+      </div>
+      <div class="grid-2">
+        <div class="form-grup">
+          <label>Boyut (px)</label>
+          <input type="number" id="qrBoyut" value="300" min="100" max="1000">
+        </div>
+        <div class="form-grup">
+          <label>Renk</label>
+          <input type="color" id="qrRenk" value="#000000">
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="qrOlustur()">📱 QR Kod Oluştur</button>
+      <div id="qrSonuc">
+        <img id="qrResim" alt="QR Kod"><br><br>
+        <button class="btn btn-ghost" onclick="qrIndir()">📥 İndir</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sayfa" id="sayfa-api-docs">
+  <div class="wrap">
+    <div class="hero">
+      <div class="badge">📖 Dokümantasyon</div>
+      <h1>TurkDev PhotoURL <em>API</em></h1>
+      <p>Aylık 100 istek hakkıyla kendi projelerinde kullan.</p>
+    </div>
+    <div class="kart">
+      <h3>🔑 API Anahtarı</h3>
+      <p style="color:var(--muted);margin-bottom:12px">API anahtarını almak için panele giriş yap.</p>
+      <button class="btn btn-primary" onclick="git('giris')">Giriş Yap</button>
+    </div>
+    <div class="kart">
+      <h3>📤 Resim Çevirme</h3>
+      <div class="kod">POST https://turkdev-photourl.vercel.app/api/convert
+Authorization: Bearer td_live_XXXXX
+Content-Type: application/json
+
+{
+  "image": "data:image/jpeg;base64,/9j/4AAQ..."
+}</div>
+      <p style="color:var(--muted);font-size:.9rem">Cevap:</p>
+      <div class="kod">{
+  "success": true,
+  "url": "https://turkdev-photourl.vercel.app/i/abc123.png",
+  "boyut": "245 KB"
+}</div>
+    </div>
+  </div>
+</section>
+
+<section class="sayfa" id="sayfa-giris">
+  <div class="wrap">
+    <div class="hero"><h1>Giriş <em>Yap</em></h1></div>
+    <div class="kart" style="max-width:440px;margin:0 auto">
+      <div class="alert alert-hata" id="girisHata"></div>
+      <div class="alert alert-basari" id="girisBasari"></div>
+      <div class="form-grup">
+        <label>E-posta</label>
+        <input type="email" id="girisMail" placeholder="ornek@mail.com">
+      </div>
+      <div class="form-grup">
+        <label>Şifre</label>
+        <input type="password" id="girisSifre" placeholder="••••••••">
+      </div>
+      <button class="btn btn-primary" style="width:100%" onclick="girisYap()">Giriş Yap</button>
+      <p style="text-align:center;margin-top:16px;color:var(--muted);font-size:.88rem">
+        Hesabın yok mu? <a href="#" onclick="git('kayit');return false" style="color:var(--accent);font-weight:700">Kayıt ol</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="sayfa" id="sayfa-kayit">
+  <div class="wrap">
+    <div class="hero"><h1>Kayıt <em>Ol</em></h1></div>
+    <div class="kart" style="max-width:440px;margin:0 auto">
+      <div class="alert alert-hata" id="kayitHata"></div>
+      <div class="alert alert-basari" id="kayitBasari"></div>
+      <div class="form-grup">
+        <label>E-posta</label>
+        <input type="email" id="kayitMail" placeholder="ornek@mail.com">
+      </div>
+      <div class="form-grup">
+        <label>Şifre (min 6 karakter)</label>
+        <input type="password" id="kayitSifre" placeholder="••••••••">
+      </div>
+      <div class="form-grup">
+        <label>İnsan mısın?</label>
+        <div style="padding:14px;background:rgba(0,0,0,.3);border-radius:11px;font-family:monospace;font-size:1.05rem">
+          <span id="captchaSoru"></span>
+          <input type="number" id="captchaCevap" placeholder="Cevap" style="width:80px;margin-left:10px;padding:8px 12px;border-radius:8px;background:#000;border:1px solid var(--border);color:var(--text)">
+        </div>
+      </div>
+      <button class="btn btn-primary" style="width:100%" onclick="kayitOl()">Kayıt Ol</button>
+      <p style="text-align:center;margin-top:16px;color:var(--muted);font-size:.88rem">
+        Hesabın var mı? <a href="#" onclick="git('giris');return false" style="color:var(--accent);font-weight:700">Giriş yap</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="sayfa" id="sayfa-panel">
+  <div class="wrap">
+    <div class="hero"><h1>Panelim</h1><p id="panelMail" style="color:var(--accent);font-weight:700"></p></div>
+    <div class="grid-3">
+      <div class="stat-mini"><b id="pGunluk">0</b><span>Bugün kullanılan</span></div>
+      <div class="stat-mini"><b id="pAylik">0</b><span>Bu ay kullanılan</span></div>
+      <div class="stat-mini"><b id="pKalan">100</b><span>Aylık kalan hak</span></div>
+    </div>
+    <div class="kart" style="margin-top:20px">
+      <h3>🔑 API Anahtarın</h3>
+      <div class="kod" id="apiKeyAlan">Yükleniyor...</div>
+      <button class="btn btn-ghost btn-sm" onclick="apiKeyKopyala()">📋 Kopyala</button>
+      <button class="btn btn-ghost btn-sm" onclick="apiKeyYenile()">🔄 Yenile</button>
+    </div>
+    <div class="kart">
+      <h3>🖼️ Son Resimlerin</h3>
+      <div id="resimListesi" style="color:var(--muted)">Henüz resim yüklemedin.</div>
+    </div>
+  </div>
+</section>
+
+<section class="sayfa" id="sayfa-lisans">
+  <div class="wrap">
+    <div class="hero"><div class="badge">📜 Lisans</div><h1>Kullanım <em>Koşulları</em></h1></div>
+    <div class="kart">
+      <div class="lisans-box">
+TurkDev PhotoURL - Kullanım Lisansı
+Copyright (c) 2023-2026 TurkDev
+Tüm hakları saklıdır.
+
+1. HİZMET TANIMI
+   TurkDev PhotoURL, kullanıcıların resimlerini yükleyip PNG formatında
+   kalıcı linkler almasını sağlayan bir dijital hizmettir.
+
+2. KULLANIM HAKKI
+   - Kayıtlı kullanıcılar günlük 15 ücretsiz resim çevirme hakkına sahiptir.
+   - API kullanıcıları aylık 100 istek hakkına sahiptir.
+
+3. YASAKLAR
+   - Yasadışı içerik yüklemek kesinlikle yasaktır.
+   - +18 / müstehcen içerik yüklemek yasaktır.
+   - Telif hakkı ihlali içeren içerik yasaktır.
+   - Zararlı yazılım, virüslü dosya yasaktır.
+
+4. SORUMLULUK
+   Yüklenen içeriklerin telif hakkı ve yasal sorumluluğu tamamen
+   yükleyen kullanıcıya aittir.
+
+5. İLETİŞİM
+   destekturkdev@outlook.com.tr
+
+Yürürlük Tarihi: 2023
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>© 2023-2026 TurkDev PhotoURL — Tüm hakları saklıdır.</p>
+    <p>✉️ <a href="mailto:destekturkdev@outlook.com.tr">destekturkdev@outlook.com.tr</a></p>
+    <small>TurkDev güvencesiyle</small>
+  </div>
+</footer>
+
+<script type="module" src="api.js"></script>
+</body>
+  </html>
