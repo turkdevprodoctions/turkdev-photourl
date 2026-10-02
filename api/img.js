@@ -2,9 +2,12 @@ const TOKEN = "8957741117:AAEmI4Tc7JSUemVUAnUzoYpD8J2p1aMCfyk";
 const FIREBASE_DB = "https://turkdev-photourl-default-rtdb.europe-west1.firebasedatabase.app";
 
 export default async function handler(req, res){
-  const { id } = req.query;
+  let { id } = req.query;
 
   if(!id) return res.status(400).send('ID gerekli');
+
+  // .png uzantısını temizle
+  id = id.replace(/\.png$/i, '').replace(/\.(jpg|jpeg|webp|gif)$/i, '');
 
   try{
     const snap = await fetch(`${FIREBASE_DB}/resimler/${id}.json`);
