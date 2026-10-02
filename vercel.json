@@ -1,1 +1,6 @@
-
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/i/:id", "destination": "/api/img?id=:id" }
+  ]
+}
