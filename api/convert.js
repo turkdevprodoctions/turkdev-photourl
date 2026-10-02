@@ -1,8 +1,6 @@
-
-
 const TOKEN = "8957741117:AAEmI4Tc7JSUemVUAnUzoYpD8J2p1aMCfyk";
 const CHAT_ID = "-1004349739187";
-const FIREBASE_DB = "https://turkdev-photourl-default-rtdb.firebaseio.com";
+const FIREBASE_DB = "https://turkdev-photourl-default-rtdb.europe-west1.firebasedatabase.app";
 
 export default async function handler(req, res){
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -50,7 +48,7 @@ export default async function handler(req, res){
     const fileId = yukleData.result.document.file_id;
     const id = Array.from(crypto.getRandomValues(new Uint8Array(8))).map(b => b.toString(16).padStart(2, '0')).join('');
 
-    await fetch(`${FIREBASE_DB}/resimler/${id}.json`, {
+    const fbCevap = await fetch(`${FIREBASE_DB}/resimler/${id}.json`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -62,6 +60,13 @@ export default async function handler(req, res){
       })
     });
 
+    if(!fbCevap.ok){
+      return res.status(500).json({ 
+        error: 'Firebase kayıt hatası: ' + fbCevap.status,
+        detay: await fbCevap.text()
+      });
+    }
+
     const host = req.headers.host ? 'https://' + req.headers.host : '';
     return res.status(200).json({
       success: true,
@@ -72,4 +77,4 @@ export default async function handler(req, res){
   }catch(err){
     return res.status(500).json({ error: err.message });
   }
-      }
+}
